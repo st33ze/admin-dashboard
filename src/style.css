@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500&display=swap');
+
+/* ========== THEME ========== */
+:root {
+  --clr-text: 180deg, 3%, 6%;
+  --clr-accent: 201deg, 69%, 84%;
+  --clr-primary: 210deg, 25%, 91%;
+  --clr-secondary: 43deg, 78%, 57%;
+
+  --ff-primary: 'Roboto', sans-serif;
+  
+  --fw-regular: 300;
+  --fw-bold: 500;
+
+  --fs-400: 1rem;
+  --fs-450: 1.125rem;
+  --fs-600: 1.5rem;
+  --fs-800: 2rem;
+}
+
+/* ========== CSS RESET ========== */
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+input, button, textarea, select {
+  font: inherit;
+}
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+#root, #__next {
+  isolation: isolate;
+}
+
+/* ========== GENERAL STYLING ========== */
+body {
+  font-family: var(--ff-primary);
+  color: hsl(var(--clr-text));
+}
+
+/* ========== UTILITY CLASSES ========== */
