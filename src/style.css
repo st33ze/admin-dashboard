@@ -51,7 +51,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* ========== UTILITY CLASSES ========== */
 .container {
-  margin: 1rem 0.5rem;
+  padding: 1rem 0.5rem;
 }
 .animation-off {
   transition: none !important;
@@ -93,6 +93,8 @@ button {
 .header {
   position: fixed;
   width: 100%;
+  display: grid;
+  gap: 2rem;
   box-shadow: 0 0 10px 5px hsl(var(--clr-text-primary), 0.25);
 }
 .top-bar {
@@ -196,29 +198,29 @@ button {
   height: 100%;
   display: grid;
   row-gap: 2rem;
-  justify-content: start;
   align-content: start;
-  padding: 1rem 0 0 1rem;
+  padding: 1rem 1rem 0 1rem;
   background-color: hsl(var(--clr-primary));
   color: hsl(var(--clr-text-secondary));
   transform: translateX(-100%);
-  transition: translate 0.5s ease;
+  transition: transform 0.5s ease;
 }
 .side-menu-show {
   transform: translateX(0);
+  overflow: hidden;
 }
 .side-menu svg path {
   fill: hsl(var(--clr-text-secondary));
 }
-.side-menu .logo,
+.side-menu-header,
 .side-menu li a {
   display: grid;
   column-gap: 1rem;
-  grid-template-columns: 3rem 1fr;
+  grid-template-columns: 3rem 1fr auto;
   justify-content: start;
   align-items: center;
 }
-.side-menu .logo .icon {
+.side-menu-header .icon {
   width: 3rem;
 }
 .side-menu ul {

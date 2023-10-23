@@ -16,3 +16,8 @@ window.addEventListener('resize', () => {
   searchContainer.classList.add('animation-off');
 });
 // Toggle side menu on small screens.
+const menuButton = header.querySelector('button[aria-label="Menu"]');
+const menu = document.getElementById('side-menu');
+const closeMenuButton = menu.querySelector('button[aria-label="Close menu"]');
+menuButton.addEventListener('click', () => menu.classList.add('side-menu-show'));
+closeMenuButton.addEventListener('click', () => menu.classList.remove('side-menu-show'));
