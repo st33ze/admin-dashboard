@@ -15,3 +15,4 @@ searchCloseButton.addEventListener('click', () => {
 window.addEventListener('resize', () => {
   searchContainer.classList.add('animation-off');
 });
+// Toggle side menu on small screens.
