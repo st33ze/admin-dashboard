@@ -272,4 +272,7 @@ button {
   .side-menu .menu-close {
     display: none;
   }
+  .header {
+    grid-area: header;
+  }
 }
