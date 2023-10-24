@@ -203,7 +203,14 @@ button {
     font-size: var(--fs-300);
   }
 }
-
+@media (min-width: 900px) {
+  .top-bar {
+    grid-template-columns: 1fr auto auto;
+  }
+  .menu-button {
+    display: none;
+  }
+}
 /* ========== SIDE MENU ========== */
 .side-menu {
   position: fixed;
