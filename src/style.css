@@ -56,10 +56,16 @@ p, h1, h2, h3, h4, h5, h6 {
 .animation-off {
   transition: none !important;
 }
+.hidden {
+  display: none !important;
+}
 /* ========== GENERAL STYLING ========== */
 body {
   font-family: var(--ff-primary);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-400);
   color: hsl(var(--clr-text-primary));
+  background-color: hsl(var(--clr-secondary));
 }
 a {
   text-decoration: none;
@@ -69,6 +75,7 @@ button {
   cursor: pointer;
 }
 .icon {
+  display: inline-block; /* ??????? */
   width: 2rem;
   padding-inline: 0.25rem;
   border: none;
@@ -110,7 +117,10 @@ button {
   width: 100%;
   display: grid;
   gap: 2rem;
+  font-weight: var(--fw-bold);
+  background-color: hsl(var(--clr-text-secondary));
   box-shadow: 0 0 10px 5px hsl(var(--clr-text-primary), 0.25);
+  grid-area: header;
 }
 .top-bar {
   display: grid;
@@ -224,6 +234,7 @@ button {
   padding: 1rem;
   background-color: hsl(var(--clr-primary));
   color: hsl(var(--clr-text-secondary));
+  font-weight: var(--fw-bold);
   transform: translateX(-100%);
   transition: transform 0.5s ease;
 }
@@ -241,6 +252,9 @@ button {
   grid-template-columns: 3rem 1fr auto;
   justify-content: start;
   align-items: center;
+}
+.side-menu-header h1 {
+  font-weight: var(--fw-bold);
 }
 .side-menu li:hover {
   color: hsl(var(--clr-accent));
@@ -274,5 +288,56 @@ button {
   }
   .header {
     grid-area: header;
+  }
+}
+
+main {
+  grid-area: main;
+  overflow-x: hidden;
+}
+/* ========== PROJECTS SECTION ========== */
+.projects header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.projects h2 {
+  font-size: var(--fs-450);
+  font-weight: var(--fw-bold);
+}
+.projects ul {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow: hidden;
+  column-gap: 1rem;
+  margin-top: 0.5rem;
+  padding: 0;
+  list-style: none;
+  scroll-behavior: smooth;
+}
+.project-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-width: 16rem;
+  height: 100%;
+  padding: 1rem;
+  background-color: hsl(var(--clr-text-secondary));
+  border-left: 0.5rem solid hsl(var(--clr-accent));
+  border-radius: 0.5rem;
+}
+.project-card h3 {
+  font-size: var(--fs-400);
+  font-weight: var(--fw-bold);
+}
+.project-card-buttons {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: end;
+  column-gap: 1rem;
+  margin-top: 1rem;
+}
+@media (min-width: 600px) {
+  .projects ul {
+    grid-auto-columns: calc(100% / 2 - 0.5rem);
   }
 }
