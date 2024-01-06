@@ -12,6 +12,7 @@ searchCloseButton.addEventListener('click', () => {
   searchContainer.classList.remove('search-container-show');
 });
 
+
 /* ========== SIDE MENU ========== */
 // Toggle side menu on small screens.
 const menuButton = header.querySelector('button[aria-label="Menu"]');
@@ -23,55 +24,91 @@ menuButton.addEventListener('click', () => {
 });
 closeMenuButton.addEventListener('click', () => menu.classList.remove('side-menu-show'));
 
+
 /* ========== MAIN SECTION ========== */
+let scrolling = false;
+async function scroll(direction, container) {
+  if (scrolling) return;
+  // container.classList.remove('smooth-scroll-off');
+  scrolling = true;
+  const card = container.firstElementChild;
+  const gap  = parseInt(window.getComputedStyle(container).columnGap);
+  const translateX = direction === 'left' ? -(card.offsetWidth + gap): card.offsetWidth + gap;
+  container.scrollLeft += translateX;
+  setTimeout(() => {scrolling = false}, 500);
+  return (container.scrollLeft + translateX);
+}
 // Projects section scroll.
 const projects = document.querySelector('.projects ul');
-const projectsCount = projects.childElementCount;
-const project = projects.querySelector('li');
 const navBtnLeft = document.querySelector('.projects nav button[data-direction="left"]');
 const navBtnRight = document.querySelector('.projects nav button[data-direction="right"]');
 const navBtns = [navBtnLeft, navBtnRight];
-
-let scrolling = false;
-function scroll(direction) {
-  if (scrolling) return;
-  scrolling = true;
-  const cardWidth = project.offsetWidth;
-  const gap = parseInt(window.getComputedStyle(projects).columnGap);
-  const translateX = cardWidth + gap;
-  let currentProject = parseInt(projects.getAttribute('data-current'));
-  if (direction === 'left' && currentProject !== 1) {
-    projects.scrollLeft -= translateX;
-    currentProject--;
-    projects.setAttribute('data-current', currentProject);
-  } else if (direction == 'right' && currentProject !== projectsCount) {
-    projects.scrollLeft += translateX;
-    currentProject++;
-    projects.setAttribute('data-current', currentProject);
-  }
-  if (currentProject === 1) navBtnLeft.classList.add('hidden');
-  else if (currentProject === projectsCount) navBtnRight.classList.add('hidden');
-  else navBtns.forEach(btn => btn.classList.remove('hidden'));
-  setTimeout(() => {scrolling = false}, 500);
+const projectsTotal = projects.childElementCount;
+let currentProjectID = 1;
+/**
+ * Controls display of the navigation buttons.
+ */
+function controlNavDisplay(scrollPos) {
+  if (scrollPos <= 0) navBtnLeft.classList.remove('active');
+  else if (scrollPos + projects.clientWidth >= projects.scrollWidth) navBtnRight.classList.remove('active');
+  else navBtns.forEach(btn => btn.classList.add('active'));
 }
-
+function updateCurrentProjectID(direction) {
+  if (direction === 'left' && currentProjectID > 1) currentProjectID--;
+  else if (direction === 'right' && currentProjectID <  projectsTotal) currentProjectID++;
+}
 navBtns.forEach(button => {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', async () => {
     const direction = button.getAttribute('data-direction');
-    scroll(direction);
+    const scrollPos = await scroll(direction, projects);
+    if (scrollPos !== undefined) {
+      controlNavDisplay(scrollPos);
+      updateCurrentProjectID(direction);
+    }
   });
 });
-projects.addEventListener('wheel', (e) => {
-  e.deltaY > 0 ? scroll('right'): scroll('left');
+projects.addEventListener('wheel', async (e) => {
+  const direction = e.deltaY > 0 ? 'right': 'left';
+  const scrollPos = await scroll(direction, projects);
+  if (scrollPos !== undefined) {
+    controlNavDisplay(scrollPos);
+    updateCurrentProjectID(direction);
+  }
 });
+
+// Announcements page indicatiors show.
+const indicators = document.querySelector('.announcements .page-indicators');
+const announcements = document.querySelector('.announcements ul');
+const fragment = document.createDocumentFragment();
+if (announcements.children.length > 1) {
+  Array.from(announcements.children).forEach(annoucement => {
+    const div = document.createElement('div');
+    fragment.appendChild(div);
+  });
+  fragment.firstChild.classList.add('indicator-active');
+  indicators.appendChild(fragment);  
+}
+// Annoucements section scroll.
+announcements.addEventListener('click', () => {
+  
+})
+
+
 
 /* ========== UTILITY ========== */
 window.addEventListener('resize', () => {
   // Turn off animation.
   searchContainer.classList.add('animation-off');
   menu.classList.add('animation-off');
+  projects.classList.add('smooth-scroll-off');
   // Reset scroll position.
-  projects.setAttribute('data-current', 1);
-  navBtnLeft.classList.add('hidden');
-  projects.scrollLeft = 0;
+  // projects.setAttribute('data-current', 1);
+  // // navBtnLeft.classList.add('hidden');
+  // projects.scrollLeft = 0;
+  const projectCard = projects.firstElementChild;
+  const gap  = parseInt(window.getComputedStyle(projects).columnGap);
+  const scrollPos = (projectCard.offsetWidth + gap) * (currentProjectID - 1);
+  projects.scrollLeft = scrollPos;
+  controlNavDisplay(scrollPos);
+  projects.classList.remove('smooth-scroll-off');
 });
