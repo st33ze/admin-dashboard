@@ -89,8 +89,8 @@ if (announcements.children.length > 1) {
   indicators.appendChild(fragment);  
 }
 // Annoucements section scroll.
-announcements.addEventListener('click', () => {
-  
+announcements.addEventListener('click', async () => {
+  const scrollPos = await scroll('right', announcements);
 })
 
 
