@@ -27,16 +27,29 @@ closeMenuButton.addEventListener('click', () => menu.classList.remove('side-menu
 
 /* ========== MAIN SECTION ========== */
 let scrolling = false;
+// async function scroll(direction, container) {
+//   if (scrolling) return;
+//   scrolling = true;
+//   const card = container.firstElementChild;
+//   const gap  = parseInt(window.getComputedStyle(container).columnGap);
+//   const translateX = direction === 'left' ? -(card.offsetWidth + gap): card.offsetWidth + gap;
+//   container.scrollLeft += translateX;
+//   setTimeout(() => {scrolling = false}, 3000);
+//   return (container.scrollLeft + translateX);
+// }
 async function scroll(direction, container) {
   if (scrolling) return;
-  // container.classList.remove('smooth-scroll-off');
   scrolling = true;
   const card = container.firstElementChild;
   const gap  = parseInt(window.getComputedStyle(container).columnGap);
   const translateX = direction === 'left' ? -(card.offsetWidth + gap): card.offsetWidth + gap;
   container.scrollLeft += translateX;
-  setTimeout(() => {scrolling = false}, 500);
-  return (container.scrollLeft + translateX);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      scrolling = false;
+      resolve(container.scrollLeft + translateX);
+    }, 400);
+  });
 }
 // Projects section scroll.
 const projects = document.querySelector('.projects ul');
@@ -53,6 +66,7 @@ function controlNavDisplay(scrollPos) {
   else if (scrollPos + projects.clientWidth >= projects.scrollWidth) navBtnRight.classList.remove('active');
   else navBtns.forEach(btn => btn.classList.add('active'));
 }
+// DO POPRAWY!!!! O JEDNO ZA WCZESNIE WYGASA STRZALKA!!!!
 function updateCurrentProjectID(direction) {
   if (direction === 'left' && currentProjectID > 1) currentProjectID--;
   else if (direction === 'right' && currentProjectID <  projectsTotal) currentProjectID++;
@@ -87,11 +101,31 @@ if (announcements.children.length > 1) {
   });
   fragment.firstChild.classList.add('indicator-active');
   indicators.appendChild(fragment);  
+  // Append copy of first annoucement at the end.
+  const firstAnnoucementCopy = announcements.children[0].cloneNode(true);
+  announcements.appendChild(firstAnnoucementCopy);
 }
 // Annoucements section scroll.
+let currentAnnoucementID = 0;
+const numAnnoucments = announcements.childElementCount;
 announcements.addEventListener('click', async () => {
   const scrollPos = await scroll('right', announcements);
-})
+  if (scrollPos !== undefined) {
+    currentAnnoucementID++;
+    if (currentAnnoucementID === numAnnoucments-1) {
+    // indicators.children[numAnnoucments-1].classList.remove('indicator-active');
+    // indicators.children[0].classList.add('indicator-active');
+      currentAnnoucementID = 0;
+      announcements.classList.add('smooth-scroll-off');
+      announcements.scrollLeft = 0;
+      announcements.classList.remove('smooth-scroll-off');
+      return
+    }
+  // indicators.children[currentAnnoucementID].classList.remove('indicator-active');
+  // indicators.children[currentAnnoucementID].classList.add('indicator-active');
+  }
+  
+});
 
 
 
@@ -101,10 +135,7 @@ window.addEventListener('resize', () => {
   searchContainer.classList.add('animation-off');
   menu.classList.add('animation-off');
   projects.classList.add('smooth-scroll-off');
-  // Reset scroll position.
-  // projects.setAttribute('data-current', 1);
-  // // navBtnLeft.classList.add('hidden');
-  // projects.scrollLeft = 0;
+  // Adjust projects scroll.
   const projectCard = projects.firstElementChild;
   const gap  = parseInt(window.getComputedStyle(projects).columnGap);
   const scrollPos = (projectCard.offsetWidth + gap) * (currentProjectID - 1);
