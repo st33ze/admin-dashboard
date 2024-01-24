@@ -113,18 +113,17 @@ announcements.addEventListener('click', async () => {
   if (scrollPos !== undefined) {
     currentAnnoucementID++;
     if (currentAnnoucementID === numAnnoucments-1) {
-    // indicators.children[numAnnoucments-1].classList.remove('indicator-active');
-    // indicators.children[0].classList.add('indicator-active');
+      indicators.children[numAnnoucments-2].classList.remove('indicator-active');
+      indicators.children[0].classList.add('indicator-active');
       currentAnnoucementID = 0;
       announcements.classList.add('smooth-scroll-off');
       announcements.scrollLeft = 0;
       announcements.classList.remove('smooth-scroll-off');
-      return
+      return;
     }
-  // indicators.children[currentAnnoucementID].classList.remove('indicator-active');
-  // indicators.children[currentAnnoucementID].classList.add('indicator-active');
+    indicators.children[currentAnnoucementID-1].classList.remove('indicator-active');
+    indicators.children[currentAnnoucementID].classList.add('indicator-active');
   }
-  
 });
 
 
