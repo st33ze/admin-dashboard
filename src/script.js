@@ -27,16 +27,6 @@ closeMenuButton.addEventListener('click', () => menu.classList.remove('side-menu
 
 /* ========== MAIN SECTION ========== */
 let scrolling = false;
-// async function scroll(direction, container) {
-//   if (scrolling) return;
-//   scrolling = true;
-//   const card = container.firstElementChild;
-//   const gap  = parseInt(window.getComputedStyle(container).columnGap);
-//   const translateX = direction === 'left' ? -(card.offsetWidth + gap): card.offsetWidth + gap;
-//   container.scrollLeft += translateX;
-//   setTimeout(() => {scrolling = false}, 3000);
-//   return (container.scrollLeft + translateX);
-// }
 async function scroll(direction, container) {
   if (scrolling) return;
   scrolling = true;
@@ -47,7 +37,7 @@ async function scroll(direction, container) {
   return new Promise((resolve) => {
     setTimeout(() => {
       scrolling = false;
-      resolve(container.scrollLeft + translateX);
+      resolve(container.scrollLeft);
     }, 400);
   });
 }
@@ -62,11 +52,11 @@ let currentProjectID = 1;
  * Controls display of the navigation buttons.
  */
 function controlNavDisplay(scrollPos) {
+  console.log(scrollPos);
   if (scrollPos <= 0) navBtnLeft.classList.remove('active');
   else if (scrollPos + projects.clientWidth >= projects.scrollWidth) navBtnRight.classList.remove('active');
   else navBtns.forEach(btn => btn.classList.add('active'));
 }
-// DO POPRAWY!!!! O JEDNO ZA WCZESNIE WYGASA STRZALKA!!!!
 function updateCurrentProjectID(direction) {
   if (direction === 'left' && currentProjectID > 1) currentProjectID--;
   else if (direction === 'right' && currentProjectID <  projectsTotal) currentProjectID++;
