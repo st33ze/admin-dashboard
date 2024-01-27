@@ -26,19 +26,27 @@ closeMenuButton.addEventListener('click', () => menu.classList.remove('side-menu
 
 
 /* ========== MAIN SECTION ========== */
+function scrollable(direction, container) {
+  const maxScroll = container.scrollWidth - container.clientWidth;
+  return (direction === 'right' && (container.scrollLeft < maxScroll)) ||
+         (direction === 'left' && container.scrollLeft > 0);
+}
 let scrolling = false;
 async function scroll(direction, container) {
-  if (scrolling) return;
+  if (scrolling || !scrollable(direction, container)) return;
   scrolling = true;
   const card = container.firstElementChild;
   const gap  = parseInt(window.getComputedStyle(container).columnGap);
   const translateX = direction === 'left' ? -(card.offsetWidth + gap): card.offsetWidth + gap;
   container.scrollLeft += translateX;
   return new Promise((resolve) => {
-    setTimeout(() => {
+    const scrollEndHandler = () => {
+      container.removeEventListener('scrollend', scrollEndHandler);
       scrolling = false;
+      console.log(container.scrollLeft, container.scrollWidth - container.clientWidth);
       resolve(container.scrollLeft);
-    }, 400);
+    };
+    container.addEventListener('scrollend', scrollEndHandler);
   });
 }
 // Projects section scroll.
