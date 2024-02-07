@@ -328,6 +328,7 @@ main h3 {
   overflow-x: hidden;
   margin-top: 0.25rem;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
 }
 .card {
   display: grid;
@@ -337,6 +338,7 @@ main h3 {
   padding: 1rem;
   background-color: hsl(var(--clr-text-secondary));
   border-radius: 0.5rem;
+  scroll-snap-align: start;
 }
 
 /* ========== PROJECTS SECTION ========== */

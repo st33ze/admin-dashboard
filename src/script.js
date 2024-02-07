@@ -60,7 +60,7 @@ let currentProjectID = 1;
  * Controls display of the navigation buttons.
  */
 function controlNavDisplay(scrollPos) {
-  console.log(scrollPos);
+  // console.log(scrollPos);
   if (scrollPos <= 0) navBtnLeft.classList.remove('active');
   else if (scrollPos + projects.clientWidth >= projects.scrollWidth) navBtnRight.classList.remove('active');
   else navBtns.forEach(btn => btn.classList.add('active'));
@@ -131,12 +131,4 @@ window.addEventListener('resize', () => {
   // Turn off animation.
   searchContainer.classList.add('animation-off');
   menu.classList.add('animation-off');
-  projects.classList.add('smooth-scroll-off');
-  // Adjust projects scroll.
-  const projectCard = projects.firstElementChild;
-  const gap  = parseInt(window.getComputedStyle(projects).columnGap);
-  const scrollPos = (projectCard.offsetWidth + gap) * (currentProjectID - 1);
-  projects.scrollLeft = scrollPos;
-  controlNavDisplay(scrollPos);
-  projects.classList.remove('smooth-scroll-off');
 });
