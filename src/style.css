@@ -401,3 +401,29 @@ main h3 {
   background-color: hsl(var(--clr-text-primary));
   transform: scale(1.2);
 }
+
+/* ========== TRENDING SECTION ========== */
+.trending ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background-color: hsl(var(--clr-text-secondary));
+  border-radius: 0.5rem;
+}
+.trending a {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 1rem;
+  align-items: center;
+  justify-content: left;
+}
+.trending .avatar {
+  width: 2.5rem;
+}
+.trending-info p:first-child {
+  font-weight: var(--fw-bold);
+}
+.trending-info p:last-child {
+  color: hsl(var(--clr-text-primary), 0.7);
+}
