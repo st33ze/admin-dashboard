@@ -43,7 +43,6 @@ async function scroll(direction, container) {
     const scrollEndHandler = () => {
       container.removeEventListener('scrollend', scrollEndHandler);
       scrolling = false;
-      console.log(container.scrollLeft, container.scrollWidth - container.clientWidth);
       resolve(container.scrollLeft);
     };
     container.addEventListener('scrollend', scrollEndHandler);
@@ -60,7 +59,6 @@ let currentProjectID = 1;
  * Controls display of the navigation buttons.
  */
 function controlNavDisplay(scrollPos) {
-  // console.log(scrollPos);
   if (scrollPos <= 0) navBtnLeft.classList.remove('active');
   else if (scrollPos + projects.clientWidth >= projects.scrollWidth) navBtnRight.classList.remove('active');
   else navBtns.forEach(btn => btn.classList.add('active'));
@@ -127,8 +125,20 @@ announcements.addEventListener('click', async () => {
 
 
 /* ========== UTILITY ========== */
-window.addEventListener('resize', () => {
-  // Turn off animation.
-  searchContainer.classList.add('animation-off');
-  menu.classList.add('animation-off');
-});
+let resizeTimer;
+let isResizing = false;
+function handleWindowResize() {
+  if (!isResizing) {
+    searchContainer.classList.add('animation-off');
+    isResizing = true;
+    menu.classList.add('animation-off');
+  }
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+    controlNavDisplay(projects.scrollLeft);
+    searchContainer.classList.remove('animation-off');
+    menu.classList.remove('animation-off');
+    isResizing = false;
+  }, 250);
+}
+window.addEventListener('resize', handleWindowResize);
