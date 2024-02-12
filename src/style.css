@@ -127,6 +127,7 @@ button {
   font-weight: var(--fw-bold);
   background-color: hsl(var(--clr-text-secondary));
   box-shadow: 0 0 10px 5px hsl(var(--clr-text-primary), 0.25);
+  z-index: 1000;
   grid-area: header;
 }
 .top-bar {
