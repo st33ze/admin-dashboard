@@ -409,6 +409,7 @@ main h3 {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
   padding: 1rem;
+  margin-top: 0.25rem;
   background-color: hsl(var(--clr-text-secondary));
   border-radius: 0.5rem;
 }
