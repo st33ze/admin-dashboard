@@ -78,6 +78,7 @@ navBtns.forEach(button => {
   });
 });
 projects.addEventListener('wheel', async (e) => {
+  if (window.screen.width >= 1300) return;
   e.preventDefault(); // disable main page scrolling.
   const direction = e.deltaY > 0 ? 'right': 'left';
   const scrollPos = await scroll(direction, projects);
