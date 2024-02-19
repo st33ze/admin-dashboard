@@ -14,6 +14,7 @@
   --fw-bold: 500;
 
   --fs-300: 0.75rem;
+  --fs-350: 0.875rem;
   --fs-400: 1rem;
   --fs-450: 1.125rem;
   --fs-600: 1.5rem;
@@ -82,7 +83,7 @@ button {
   cursor: pointer;
 }
 .icon {
-  display: inline-block; /* ??????? */
+  display: inline-block;
   width: 2rem;
   padding-inline: 0.25rem;
   border: none;
@@ -117,6 +118,7 @@ button {
     height: 100vh;
   }
 }
+
 /* ========== HEADER ========== */
 .header {
   position: sticky;
@@ -229,6 +231,7 @@ button {
     display: none;
   }
 }
+
 /* ========== SIDE MENU ========== */
 .side-menu {
   position: fixed;
@@ -333,13 +336,36 @@ main h3 {
 }
 .card {
   display: grid;
-  /* grid-template-rows: auto 1fr auto; */
   min-width: 16rem;
   height: 100%;
   padding: 1rem;
   background-color: hsl(var(--clr-text-secondary));
   border-radius: 0.5rem;
   scroll-snap-align: start;
+}
+@media (min-width: 1300px) {
+  main {
+    display: grid;
+    grid-template-columns: 70% 1fr;
+    grid-template-areas: 
+      'projects announcements'
+      'projects trending';
+    gap: 2rem;
+  }
+  .projects ul,
+  .announcements ul {
+    grid-auto-flow: row;
+  }
+  .projects {
+    grid-area: projects;
+  }
+  .projects ul {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .announcements {
+    grid-area: announcements;
+  }
 }
 
 /* ========== PROJECTS SECTION ========== */
@@ -368,12 +394,15 @@ main h3 {
     grid-auto-columns: calc(100% / 2 - 0.5rem);
   }
 }
+@media (min-width: 1300px) {
+  .projects nav {
+    display: none;
+  }
+}
 
-/* ========== ANNOUCEMENTS SECTION ========== */
+/* ========== ANNOUNCEMENTS SECTION ========== */
 .announcements {
   position: relative;
-  /* display: flex;
-  flex-direction: column; */
 }
 .announcements header {
   display: grid;
@@ -401,6 +430,33 @@ main h3 {
 .announcements .page-indicators .indicator-active {
   background-color: hsl(var(--clr-text-primary));
   transform: scale(1.2);
+}
+@media (min-width: 1300px) {
+  .announcements ul {
+    background-color: hsl(var(--clr-text-secondary));
+    border-radius: 0.5rem;
+  }
+  .announcements li:last-of-type {
+    display: none;
+  }
+  .announcements .card {
+    background-color: transparent;
+    padding-bottom: 0;
+  }
+ 
+  .announcements .card h3 {
+    font-size: var(--fs-350);
+  }
+  .announcements .card p {
+    font-size: var(--fs-300);
+    padding-bottom: 1rem;
+  }
+  .announcements li:not(:nth-last-child(-n+2)) p {
+    border-bottom: 1px solid hsl(var(--clr-text-primary), 0.25);
+  }
+  .announcements .page-indicators {
+    display: none;
+  }
 }
 
 /* ========== TRENDING SECTION ========== */
