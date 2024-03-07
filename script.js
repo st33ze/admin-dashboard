@@ -87,6 +87,25 @@ projects.addEventListener('wheel', async (e) => {
     updateCurrentProjectID(direction);
   }
 });
+// Projects swipeX.
+let touchstartX, touchendX;
+projects.addEventListener('touchstart', (e) => {
+  touchstartX = e.changedTouches[0].clientX;
+});
+projects.addEventListener('touchend', async (e) => {
+  touchendX = e.changedTouches[0].clientX;
+  const deltaX = touchendX - touchstartX;
+  const minDistance = 50;
+  if (Math.abs(deltaX) > minDistance) {
+    const direction = deltaX > 0 ? 'right': 'left';
+    const scrollPos = await scroll(direction, projects);
+    if (scrollPos !== undefined) {
+      controlNavDisplay(scrollPos);
+      updateCurrentProjectID(direction);
+    }
+  }
+
+});
 
 // Announcements page indicatiors show.
 const indicators = document.querySelector('.announcements .page-indicators');
